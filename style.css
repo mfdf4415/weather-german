@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400;1,700&family=Noto+Naskh+Arabic:wght@600;700&family=Noto+Sans+Arabic:wght@100;200;300;400;500;800&display=swap');
+
+/* Allgemeine Stile */
+* {
+    /* font-family: 'Lato', sans-serif;
+    font-family: 'Noto Naskh Arabic', serif;
+    font-family: 'Noto Sans Arabic', sans-serif; */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    border: 0;
+    background: none;
+    outline: 0;
+    transition: all ease-in-out .3s;
+}
+
+body {
+    font-size: 62.5%;
+
+}
+
+/* Ort */
+.location {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem 0;
+}
+
+.location .city {
+    font-size: 1.4rem;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.location .date {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.location .city-temp {
+    color: #fff;
+    font-size: 5rem;
+}
+
+.location .state {
+    color: #ccc;
+    font-size: 1.2rem;
+    text-align: center;
+    line-height: 2rem;
+}
+
+/* Aktuelles Wetter */
+
+.current-wraper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    /* overflow: hidden; */
+    background: rgba(0, 0, 0, .6);
+    padding: 1rem;
+    border-radius: 10px;
+    gap: 2rem;
+}
+
+.current {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.current .date {
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+.current .temp {
+    font-size: 64px;
+    font-weight: bold;
+}
+
+.temp .icon {
+    width: 5rem;
+    height: 5rem;
+}
+
+.current .weather {
+    font-size: 32px;
+    text-transform: capitalize;
+}
+
+.current .hi-low {
+    font-size: 20px;
+    color: #ccc;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("/public/pexels-pixabay-209831.jpg");
+    background-position: center;
+    background-size: cover;
+    /* background: #000; */
+}
+
+/* Liste der Städte */
+.list {
+    width: 15rem;
+    position: fixed;
+    height: 100vh;
+    background: rgba(0, 0, 0, .6);
+    z-index: 1023;
+    padding: 1rem 0;
+}
+
+.list p {
+    color: yellow;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    transform: translate(0);
+}
+
+.list button {
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+}
+
+/* Suchbereich */
+.app-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* width: 75%; */
+    padding: 20px;
+    border-radius: 10px;
+    margin-left: 15rem;
+}
+
+.app-wrap h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: relative;
+}
+
+.auto-complet {
+    position: absolute;
+    width: 30rem;
+    background: rgba(255, 255, 255, .8);
+    top: 3rem;
+    left: 0;
+    border-radius: 6px;
+}
+
+.auto-complet li {
+    font-size: 1rem;
+    padding: .7rem 1rem;
+    cursor: pointer;
+    color: #444;
+}
+
+.auto-complet li:hover {
+    background: rgba(255, 255, 255, .9);
+}
+
+.search-box button {
+    padding: 12px;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 6px;
+    background: #0487C8;
+}
+
+.search-box input {
+    width: 30rem;
+    background: rgba(255, 255, 255, .5);
+    padding: 12px;
+    color: #444;
+    font-size: 1rem;
+    border-radius: 6px;
+}
+
+@media only screen and (max-width: 880px){
+
+    .list {
+        /* left: -15rem; */
+        transform: translate(-15rem);
+    }
+
+    .app-wrap {
+        margin: auto;
+    }
+
+}
+
+@media only screen and (max-width: 650px){
+
+    .search-box input{
+        width: 20rem;
+    }
+
+}
+
+/* @media only screen and (max-width: 465px){
+
+    .search-box input{
+        width: 15rem;
+    }
+
+} */
