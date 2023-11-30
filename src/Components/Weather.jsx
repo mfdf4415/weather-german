@@ -2,9 +2,25 @@ import React, { useState } from 'react';
 import apiRequests from '../Services/Axios/Configs.jsx';
 import datas from '../datas';
 import { WeatherInfo } from './WeatherInfo';
-import bgPhoto from '../../public/pexels-pixabay-209831.jpg';
+import { HeartIcon } from '@heroicons/react/24/outline';
+import { useAppContext } from './context/AppContext.jsx';
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	fill="none"
+	viewBox="0 0 24 24"
+	strokeWidth={1.5}
+	stroke="currentColor"
+	className="w-6 h-6"
+>
+	<path
+		strokeLinecap="round"
+		strokeLinejoin="round"
+		d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+	/>
+</svg>;
 
 export function Weather() {
+	const { showAside, addFavoriteItem, changeShowAside } = useAppContext();
 	const [suggestion, setSuggestion] = useState([]);
 	const [todayWeather, setTodayWeather] = useState(null);
 	const [city, setCity] = useState('');
@@ -13,9 +29,10 @@ export function Weather() {
 	const [weatherDatas, setWeatherDatas] = useState(null);
 	const [favorites, setFavorites] = useState([]);
 	const [lastSearchedCity, setLastSearchedCity] = useState('');
+
 	// Daten von der api auslesen
 	const getWeatherData = async (cityName) => {
-		setSuggestion([])
+		setSuggestion([]);
 		const res = await apiRequests.get('/data/2.5/forecast', {
 			params: {
 				q: cityName,
@@ -29,21 +46,21 @@ export function Weather() {
 			},
 		});
 		setTodayWeather(cityRes.data);
-		console.log(cityRes.data);
-		console.log(res.data);
-		console.log(setFavorites);
 		setName(res.data.city.name);
 		setCountry(res.data.city.country);
-		const threeDayForecast = res.data.list.filter((forecast) => {
-			const forecastDate = new Date(forecast.dt_txt);
-			const currentDate = new Date();
-			const diffInDays = Math.floor(
-				(forecastDate - currentDate) / (1000 * 60 * 60 * 24)
-			);
-			return diffInDays >= 0 && diffInDays < 3;
+		// const threeDayForecast = res.data.list.filter((forecast) => {
+		// 	const forecastDate = new Date(forecast.dt_txt);
+		// 	const currentDate = new Date();
+		// 	const diffInDays = Math.floor(
+		// 		(forecastDate - currentDate) / (1000 * 60 * 60 * 24)
+		// 	);
+		// 	return diffInDays >= 0 && diffInDays < 3;
+		// });
+		const fiveDayForecast = res.data.list.filter((day) => {
+			const forecatDay = new Date(day.dt_txt).getHours();
+			return forecatDay === 6;
 		});
-		setWeatherDatas(threeDayForecast);
-		console.log(threeDayForecast);
+		setWeatherDatas(fiveDayForecast);
 
 		setLastSearchedCity(cityName);
 		setCity('');
@@ -86,14 +103,17 @@ export function Weather() {
 	};
 
 	return (
-		<div className="container">
+		<>
 			{/* {Liste der Städte} */}
-			<ul className="list">
+			<ul className={`list ${showAside ? 'show' : ''}`}>
 				<p>Liste der Städte</p>
 				{datas.germanCities.map((cityName, index) => (
 					<li key={index}>
 						<button
-							onClick={() => getWeatherData(cityName)}
+							onClick={() => {
+								changeShowAside(false);
+								getWeatherData(cityName);
+							}}
 							onKeyDown={(event) => {
 								if (event.key === 'Enter') {
 									getWeatherData(cityName);
@@ -102,7 +122,13 @@ export function Weather() {
 						>
 							{cityName}
 						</button>
-						{/* <button onClick={() => addFavorite(cityName)}>Hinzufügen</button> */}
+						<span
+							onClick={() => {
+								addFavoriteItem({ name: cityName, id: new Date().getTime() });
+							}}
+						>
+							<HeartIcon className="add-icon" />
+						</span>
 
 						{/* <button onClick={() => removeFavorite(cityName)}>Entfernen</button> */}
 					</li>
@@ -122,14 +148,13 @@ export function Weather() {
 						onChange={(event) => setCity(event.target.value)}
 						onKeyUp={inputHandler}
 					/>
-					<button onClick={() => addFavorite(lastSearchedCity)}>
-						Hinzufügen
-					</button>
 					{suggestion.length !== 0 && (
-						<div className="auto-complet">
+						<div className="auto-complete">
 							<ul>
-								{suggestion.map((item) => (
-									<li onClick={() => getWeatherData(item)}>{item}</li>
+								{suggestion.map((item, index) => (
+									<li key={index} onClick={() => getWeatherData(item)}>
+										{item}
+									</li>
 								))}
 							</ul>
 						</div>
@@ -170,6 +195,6 @@ export function Weather() {
 					))}
 				</ul>
 			</div> */}
-		</div>
+		</>
 	);
 }

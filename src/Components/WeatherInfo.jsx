@@ -1,5 +1,7 @@
 import React, { memo, useMemo } from 'react';
 import datas from '../datas.jsx';
+import { HeartIcon } from '@heroicons/react/24/outline';
+import { useAppContext } from './context/AppContext.jsx';
 
 const WeatherInfoComponent = ({
 	todayWeather,
@@ -7,7 +9,7 @@ const WeatherInfoComponent = ({
 	name,
 	country,
 }) => {
-	const newWeatherDates = weatherDatas.splice(1, 15);
+	const { addFavoriteItem } = useAppContext();
 	const showDate = useMemo(() => {
 		const now = new Date();
 		const day = datas.days[now.getDay()];
@@ -20,12 +22,20 @@ const WeatherInfoComponent = ({
 		<main>
 			<section className="location">
 				<div className="city">
-					{name}, {country} <div className="date">{showDate}</div>
+					<div>
+						{name}, {country}{' '}
+						<HeartIcon
+							onClick={() =>
+								addFavoriteItem({ name: name, id: new Date().getTime() })
+							}
+						/>
+					</div>
+					<div className="date">{showDate}</div>
 				</div>
 				<span className="city-temp">
 					{Math.floor(todayWeather.main.temp - 273.15)}°c
 				</span>
-				<span className='state'>
+				<span className="state">
 					{todayWeather.weather[0].main}
 					<br />
 					{Math.floor(todayWeather.main.temp_min - 273.15)}°c /{' '}
@@ -33,9 +43,13 @@ const WeatherInfoComponent = ({
 				</span>
 			</section>
 			<div className="current-wraper">
-				{newWeatherDates.map((weatherData) => (
+				{weatherDatas.map((weatherData) => (
 					<div className="current" key={weatherData.dt_txt}>
-						<div className="date">{new Date(weatherData.dt_txt).toLocaleDateString('en-US',{weekday: 'long'})}</div>
+						<div className="date">
+							{new Date(weatherData.dt_txt).toLocaleDateString('en-US', {
+								weekday: 'long',
+							})}
+						</div>
 						<div className="temp">
 							<img
 								src={`http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`}
@@ -46,8 +60,7 @@ const WeatherInfoComponent = ({
 						</div>
 						<div className="weather">{weatherData.weather.main}</div>
 						<div className="hi-low">
-							{Math.floor(weatherData.main.temp_min - 273.15)}°c /{' '}
-							{Math.floor(weatherData.main.temp_max - 273.15)}°c
+							{Math.floor(weatherData.main.temp - 273.15)}°c
 						</div>
 					</div>
 				))}

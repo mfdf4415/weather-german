@@ -39,7 +39,25 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 1rem;
+}
+
+.city div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.city svg {
+    width: 2rem;
+    height: 2rem;
+    color: #fff;
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.city svg:hover {
+    transform: scale(110%);
 }
 
 .location .date {
@@ -71,7 +89,7 @@ body {
     background: rgba(0, 0, 0, .6);
     padding: 1rem;
     border-radius: 10px;
-    gap: 2rem;
+    gap: 4rem;
 }
 
 .current {
@@ -122,7 +140,8 @@ body {
     height: 100vh;
     background: rgba(0, 0, 0, .6);
     z-index: 1023;
-    padding: 1rem 0;
+    padding-top: 1.5rem;
+    overflow: hidden;
 }
 
 .list p {
@@ -133,12 +152,34 @@ body {
     transform: translate(0);
 }
 
+.list li {
+    display: flex;
+    align-items: center;
+}
+
 .list button {
     color: #fff;
     cursor: pointer;
     padding: 10px;
-    width: 100%;
     text-align: left;
+    flex: 1;
+}
+
+.list li:hover .add-icon {
+    transform: translate(0);
+}
+
+.list .add-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+    margin-right: .5rem;
+    transform: translate(2rem);
+}
+
+.list .add-icon:hover {
+    color: red;
 }
 
 /* Suchbereich */
@@ -148,7 +189,9 @@ body {
     align-items: center;
     justify-content: center;
     /* width: 75%; */
-    padding: 20px;
+    padding: 0 2rem;
+    padding-top: 5rem;
+    padding-bottom: 2rem;
     border-radius: 10px;
     margin-left: 15rem;
 }
@@ -168,7 +211,7 @@ body {
     position: relative;
 }
 
-.auto-complet {
+.auto-complete {
     position: absolute;
     width: 30rem;
     background: rgba(255, 255, 255, .8);
@@ -177,14 +220,14 @@ body {
     border-radius: 6px;
 }
 
-.auto-complet li {
+.auto-complete li {
     font-size: 1rem;
     padding: .7rem 1rem;
     cursor: pointer;
     color: #444;
 }
 
-.auto-complet li:hover {
+.auto-complete li:hover {
     background: rgba(255, 255, 255, .9);
 }
 
@@ -205,11 +248,59 @@ body {
     border-radius: 6px;
 }
 
-@media only screen and (max-width: 880px){
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .6);
+    z-index: 1024;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(100% - 15rem);
+    padding: .5rem 1rem;
+    margin-left: 15rem;
+
+}
+
+.header h1 a {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.header svg {
+    width: 2rem;
+    height: 2rem;
+    color: #fff;
+}
+
+.hamburger {
+    display: none;
+}
+
+@media only screen and (max-width: 880px) {
 
     .list {
         /* left: -15rem; */
         transform: translate(-15rem);
+        padding-top: 4rem;
+    }
+
+    .list.show {
+        transform: translate(0);
+    }
+
+    .list .add-icon {
+        transform: translate(0);
+    }
+
+    .hamburger {
+        display: inline;
+    }
+
+    .header {
+        width: 100%;
+        margin-left: 0;
     }
 
     .app-wrap {
@@ -218,9 +309,86 @@ body {
 
 }
 
-@media only screen and (max-width: 650px){
+.alert {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+.error {
+    font-size: 1.5rem;
+    color: #d50404;
+}
 
-    .search-box input{
+.condition-wrap {
+    padding: 1.25rem;
+    border-radius: 1rem;
+    background: rgba(0, 0, 0, .6);
+    width: 20rem;
+}
+
+.condition-title {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    color: #f4eded;
+}
+
+.condition-items {
+    /* display: grid;
+    padding-top: 1.25rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2rem;
+    padding-top: 2rem;
+    height: 100%;
+}
+
+
+.condition-items div {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    flex: 1;
+
+}
+
+.condition-items div svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #fff;
+}
+
+.condition-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.condition-info div {
+    font-size: .8rem;
+    color: #ccc;
+}
+
+.condition-info span {
+    font-size: 1rem;
+    line-height: 2rem;
+    font-weight: 600;
+    color: #d4d4d4;
+
+}
+
+.favorite-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+@media only screen and (max-width: 650px) {
+
+    .search-box input {
         width: 20rem;
     }
 
